@@ -5,21 +5,27 @@ import { StateMapping } from '../helper/zustand';
 
 type TypeStoreGlobalPersist = {
   name: string;
+  auth: User;
 };
 
 const StoreGlobalPersist = create(
-  persist((): TypeStoreGlobalPersist => ({ name: 'gnok' }), {
+  persist((): TypeStoreGlobalPersist => ({ name: 'gnok', auth: null }), {
     name: 'storage',
   }),
 );
 
 type TypeSetMethodStoreGlobalPersist = {
   setName: (name: string) => void;
+  setUserData: (userData: User) => void;
 };
 
 const SetMethodStoreGlobalPersist: TypeSetMethodStoreGlobalPersist = {
   setName: (name: string) => {
     StoreGlobalPersist.setState({ name: name });
+  },
+  setUserData: (userData: User) => {
+    console.log(userData);
+    StoreGlobalPersist.setState({ auth: userData });
   },
 };
 

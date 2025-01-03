@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { Register } from '../../../core/middleware/firebase/service/auth';
 import { GetSetMethodStoreGlobal } from '../../global/store';
+import { GetSetMethodStoreGlobalPersist } from '../../global/store/persist';
 import { IContentData } from '.';
 
 const Content = (props: { domainName: string; data?: IContentData | null }) => {
   const { domainName } = props;
   const navigate = useNavigate();
   const { setIsLoading } = GetSetMethodStoreGlobal();
+  const { setUserData } = GetSetMethodStoreGlobalPersist();
 
   const onRegsiterWithEmailAndPassword = (e: any) => {
     e.preventDefault();
@@ -24,7 +26,10 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
         );
 
         console.log(res);
-        if (res.error == undefined) navigate('/');
+        if (res.error == undefined) {
+          setUserData(res.res.user);
+          navigate('/user/');
+        }
       } catch (e) {
         console.log(e);
       }
@@ -47,6 +52,7 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
                 type="text"
                 className="w-full px-3 py-1 border-b-3"
                 placeholder="Username"
+                required
               />
             </div>
             {/* email */}
@@ -57,6 +63,7 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
                 type="email"
                 className="w-full px-3 py-1 border-b-3"
                 placeholder="Email"
+                required
               />
             </div>
             {/* password */}

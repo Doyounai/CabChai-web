@@ -8,6 +8,7 @@ import {
   SignInWithGoogle,
 } from '../../../core/middleware/firebase/service/auth';
 import { GetSetMethodStoreGlobal } from '../../global/store';
+import { GetSetMethodStoreGlobalPersist } from '../../global/store/persist';
 import { IContentData } from '.';
 
 const Content = (props: { domainName: string; data?: IContentData }) => {
@@ -15,6 +16,7 @@ const Content = (props: { domainName: string; data?: IContentData }) => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation([domainName]);
   const { setIsLoading } = GetSetMethodStoreGlobal();
+  const { setUserData } = GetSetMethodStoreGlobalPersist();
 
   const onSignInWithEmailPassword = (e: any) => {
     e.preventDefault();
@@ -28,6 +30,10 @@ const Content = (props: { domainName: string; data?: IContentData }) => {
         );
 
         console.log(res);
+        if (res.error == undefined) {
+          setUserData(res.res.user);
+          navigate('/user/');
+        }
       } catch (e) {
         console.log(e);
       }
@@ -43,6 +49,10 @@ const Content = (props: { domainName: string; data?: IContentData }) => {
         const res = await SignInWithGoogle();
 
         console.log(res);
+        if (res.error == undefined) {
+          setUserData(res.res.user);
+          navigate('/user/');
+        }
       } catch (e) {
         console.log(e);
       }
@@ -64,6 +74,7 @@ const Content = (props: { domainName: string; data?: IContentData }) => {
                 type="email"
                 className="w-full px-3 py-1 border-b-3"
                 placeholder="Email"
+                required
               />
             </div>
             {/* password */}
@@ -74,6 +85,7 @@ const Content = (props: { domainName: string; data?: IContentData }) => {
                 type="password"
                 className="grow w-full px-3 py-1 border-b-3"
                 placeholder="Password"
+                required
               />
             </div>
             <button
