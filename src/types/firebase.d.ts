@@ -7,4 +7,10 @@ declare global {
         age: string;
       }
     | undefined;
+
+  type Category = {
+    id: string;
+    name: string;
+    usageLimit: number;
+  };
 }

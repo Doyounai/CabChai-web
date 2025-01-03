@@ -1,5 +1,6 @@
 import { FirebaseApp, initializeApp } from 'firebase/app';
 
+import { AuthInit } from './service/auth';
 import { FirestoreInit } from './service/firestore';
 
 const firebaseConfig = {
@@ -15,8 +16,9 @@ const firebaseConfig = {
 let app: FirebaseApp;
 
 export const InitFirebase = async () => {
+  console.log('--Init Firebase App--');
   app = initializeApp(firebaseConfig);
-  console.log('Init Firebase App');
-
+  await AuthInit(app);
   FirestoreInit(app);
+  console.log('---------------------');
 };
