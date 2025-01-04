@@ -1,3 +1,4 @@
+import DailyList from '../daily-list/daily-list';
 import ExpenseGraph from '../expense-graph/expense-graph';
 import ExpenseItem from '../expense-item/expense-item';
 
@@ -30,6 +31,9 @@ const ExpenseUsage = (props: {
             />
           );
         })}
+      </div>
+      <div className="w-full h-auto">
+        <DailyList expense={expense} category={category} />
       </div>
     </div>
   );
