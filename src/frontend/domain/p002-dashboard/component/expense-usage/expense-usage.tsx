@@ -1,3 +1,4 @@
+import ExpenseGraph from '../expense-graph/expense-graph';
 import ExpenseItem from '../expense-item/expense-item';
 
 const ExpenseUsage = (props: {
@@ -10,8 +11,13 @@ const ExpenseUsage = (props: {
   return (
     <div className="w-full h-auto bg-white p-4 flex flex-col space-y-3 rounded-md">
       <h1>Expense Usage</h1>
+      {/* filter */}
       <div className="w-full h-[1px]">
         <div className="w-full h-full bg-slate-300 rounded-md"></div>
+      </div>
+      {/* graph */}
+      <div className="w-full h-auto">
+        <ExpenseGraph expense={expense} category={category} />
       </div>
       {/* items */}
       <div className="w-full h-auto flex flex-col space-y-3">

@@ -18,8 +18,6 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
 
   const [expense, setExpense] = useState<Expense[]>(data.expense);
 
-  console.log(data);
-
   return (
     <div className="w-full h-screen flex flex-col p-5 space-y-5">
       <div className="menu-container w-full ">

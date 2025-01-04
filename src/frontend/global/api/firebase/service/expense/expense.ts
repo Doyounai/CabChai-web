@@ -52,8 +52,8 @@ export const GetUserExpense = async (payload: {
     } else {
       expenseRef = query(
         collection(userRef, 'expenses'),
-        where('date', '>=', range.start),
-        where('date', '<=', range.end),
+        where('dateTime', '>=', range.start),
+        where('dateTime', '<=', range.end),
       );
     }
 

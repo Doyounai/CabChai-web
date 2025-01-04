@@ -3,16 +3,16 @@ const ExpenseItem = (props: { expense: Expense[]; category: Category }) => {
 
   const amount = expense.reduce((acc, curr) => acc + Number(curr.amount as number), 0);
 
-  console.log(amount);
-
   return (
     <div className="w-full h-auto p-4 shadow-lg border-2 rounded-md flex flex-col space-y-2">
       <div className="w-full flex flex-col space-y-3 justify-between items-start">
-        <div className="flex space-x-2 items-end">
-          <h1 className="bg-[#fbbd14] text-white rounded-full w-[50px] text-center h-[50px] flex items-center justify-center">
+        <div className="flex space-x-2 items-end ">
+          <h1>
+            {amount}/{category.usageLimit}
+          </h1>
+          <h1 className="rounded-full text-center h-[50px] flex items-center justify-center">
             ฿
           </h1>
-          <h1>{amount}฿</h1>
         </div>
         <p className="font-semibold text-slate-600">{category.name.toUpperCase()}</p>
       </div>
