@@ -1,33 +1,29 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { CreateExpense } from '../../global/api/firebase/service/expense/expense';
+import { GetSetMethodStoreGlobal } from '../../global/store';
 import { UseStoreGlobalPersist } from '../../global/store/persist';
 import { IContentData } from '.';
 
 const Content = (props: { domainName: string; data?: IContentData | null }) => {
   const { domainName, data } = props;
 
+  const navigate = useNavigate();
   const { auth } = UseStoreGlobalPersist(['auth']);
+  const { setIsLoading } = GetSetMethodStoreGlobal();
 
   if (!data || !auth) {
     return <></>;
   }
-
-  // const [formData, setFormData] = useState({
-  //   subject: '',
-  //   expenseType: 'income',
-  //   dateTime: '',
-  //   merchant: '',
-  //   description: '',
-  //   category: '',
-  // });
   const [formData, setFormData] = useState<Expense>({
     subject: '',
-    expenseType: 'income',
+    expenseType: 'expenses',
     dateTime: '',
     merchant: '',
     description: '',
-    category: '',
+    category: data.category[0].id,
+    amount: 0,
   });
 
   const handleChange = (
@@ -36,28 +32,35 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]:
+        name == 'category'
+          ? data.category.filter((cate) => {
+              return cate.name == value;
+            })[0].id
+          : value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log(formData);
     // Handle form submission logic here
 
     (async () => {
+      setIsLoading(true);
       const res = await CreateExpense({
         uid: auth?.uid,
         expense: formData,
       });
 
+      setIsLoading(false);
+      navigate('/user');
       console.log(res);
     })();
   };
 
   return (
     <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
-      <h1 className="text-2xl font-bold mb-4">{domainName}</h1>
+      <h1 className="text-2xl font-bold mb-4">Expense</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700">Subject:</label>
@@ -65,6 +68,17 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
             type="text"
             name="subject"
             value={formData.subject}
+            onChange={handleChange}
+            required
+            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Amount:</label>
+          <input
+            type="number"
+            name="amount"
+            value={formData.amount}
             onChange={handleChange}
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
@@ -95,8 +109,8 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
             required
             className="w-full px-3 py-2 border border-gray-300 rounded-md"
           >
-            <option value="income">Income</option>
             <option value="expenses">Expenses</option>
+            <option value="income">Income</option>
           </select>
         </div>
         <div className="mb-4">

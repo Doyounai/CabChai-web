@@ -6,6 +6,7 @@ import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import p001CssShow from '../../frontend/domain/p001-css-show';
 import p001Home from '../../frontend/domain/p001-home';
 import p001Register from '../../frontend/domain/p001-register';
+import p002Dashboard from '../../frontend/domain/p002-dashboard';
 import p003Expense from '../../frontend/domain/p003-expense';
 import AnimationBackground from '../../frontend/global/components/animation-background';
 import RoutePrivate from '../../frontend/global/components/route-private';
@@ -19,6 +20,7 @@ const i18nList: I18n[] = [
   p001Home.i18n,
   p001CssShow.i18n,
   p001Register.i18n,
+  p002Dashboard.i18n,
   p003Expense.i18n,
 ];
 
@@ -37,7 +39,7 @@ const jsx = () => {
   return (
     <>
       <div className="w-full h-full relative">
-        <div className="w-full h-full relative">
+        <div className="w-full h-full relative overflow-y-auto">
           <BrowserRouter>
             <Routes>
               <Route path="" element={<p001Home.JSX />} index />
@@ -50,7 +52,8 @@ const jsx = () => {
                   </RoutePrivate>
                 }
               >
-                <Route path="" element={<p003Expense.JSX />} />
+                <Route path="" element={<p002Dashboard.JSX />} />
+                <Route path="expense" element={<p003Expense.JSX />} />
               </Route>
               {/* Default page */}
               <Route path="*" element={<div className="">URL Not Found</div>}></Route>
