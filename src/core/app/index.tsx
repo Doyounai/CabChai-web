@@ -7,6 +7,7 @@ import p001CssShow from '../../frontend/domain/p001-css-show';
 import p001Home from '../../frontend/domain/p001-home';
 import p001Register from '../../frontend/domain/p001-register';
 import p002Dashboard from '../../frontend/domain/p002-dashboard';
+import p003CategoryEdit from '../../frontend/domain/p003-category-edit';
 import p003Expense from '../../frontend/domain/p003-expense';
 import AnimationBackground from '../../frontend/global/components/animation-background';
 import RoutePrivate from '../../frontend/global/components/route-private';
@@ -22,6 +23,7 @@ const i18nList: I18n[] = [
   p001Register.i18n,
   p002Dashboard.i18n,
   p003Expense.i18n,
+  p003CategoryEdit.i18n,
 ];
 
 const jsx = () => {
@@ -54,6 +56,7 @@ const jsx = () => {
               >
                 <Route path="" element={<p002Dashboard.JSX />} />
                 <Route path="expense" element={<p003Expense.JSX />} />
+                <Route path="categoryedit" element={<p003CategoryEdit.JSX />} />
               </Route>
               {/* Default page */}
               <Route path="*" element={<div className="">URL Not Found</div>}></Route>

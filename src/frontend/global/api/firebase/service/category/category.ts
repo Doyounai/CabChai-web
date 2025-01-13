@@ -39,3 +39,47 @@ export const GetCategory = async (payload: { uid: string }): Promise<any> => {
     return { error: e };
   }
 };
+
+export const UpdateCategory = async (paylaod: {
+  uid: string;
+  categoryID: string;
+  cate: Category;
+}): Promise<any> => {
+  const { uid, categoryID, cate } = paylaod;
+
+  try {
+    const userRef = doc(collection(GetFirestore(), 'users'), uid);
+    const categoryRef = collection(userRef, 'categorys');
+    const categoryDoc = doc(categoryRef, categoryID);
+
+    await setDoc(categoryDoc, cate, { merge: false });
+
+    return {
+      res: 'Success',
+    };
+  } catch (e) {
+    return { error: e };
+  }
+};
+
+export const CreateCategory = async (paylaod: {
+  uid: string;
+  cate: Category;
+}): Promise<any> => {
+  const { uid, cate } = paylaod;
+
+  try {
+    const userRef = doc(collection(GetFirestore(), 'users'), uid);
+    const categoryRef = collection(userRef, 'categorys');
+    const newCateDocRef = doc(categoryRef, cate.id);
+
+    await setDoc(newCateDocRef, cate);
+    // await addDoc(categoryRef, cate);
+
+    return {
+      res: 'Success',
+    };
+  } catch (e) {
+    return { error: e };
+  }
+};

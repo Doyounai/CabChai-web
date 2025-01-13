@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import DailyList from '../daily-list/daily-list';
 import ExpenseGraph from '../expense-graph/expense-graph';
 import ExpenseItem from '../expense-item/expense-item';
@@ -18,7 +20,17 @@ const ExpenseUsage = (props: {
       </div>
       {/* graph */}
       <div className="w-full h-auto">
-        <ExpenseGraph expense={expense} category={category} />
+        <h1>Income</h1>
+        <ExpenseGraph
+          expense={expense.filter((item) => item.expenseType == 'income')}
+          category={category}
+        />
+
+        <h1>Expense</h1>
+        <ExpenseGraph
+          expense={expense.filter((item) => item.expenseType == 'expenses')}
+          category={category}
+        />
       </div>
       {/* items */}
       <div className="w-full h-auto flex flex-col space-y-3">
@@ -26,7 +38,9 @@ const ExpenseUsage = (props: {
           return (
             <ExpenseItem
               category={cate}
-              expense={expense.filter((expe) => expe.category == cate.id)}
+              expense={expense
+                .filter((item) => item.expenseType == 'expenses')
+                .filter((expe) => expe.category == cate.id)}
               key={index}
             />
           );

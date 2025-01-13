@@ -1,7 +1,9 @@
 const DailyItem = (props: { date: string; expense: Expense[] }) => {
   const { date, expense } = props;
 
-  console.log(expense);
+  const totalExpense = expense
+    .filter((expe) => expe.expenseType == 'expenses')
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
 
   return (
     <div className="w-full h-auto flex flex-col overflow-x-auto mb-12 shadow-lg border-2 rounded-md p-4">
@@ -23,6 +25,11 @@ const DailyItem = (props: { date: string; expense: Expense[] }) => {
               <td className="py-2 px-4 border-b">{expense.amount}</td>
             </tr>
           ))}
+          <tr>
+            <td className="py-2 px-4 border-b">Total</td>
+            <td className="py-2 px-4 border-b"></td>
+            <td className="py-2 px-4 border-b">{totalExpense}</td>
+          </tr>
         </tbody>
       </table>
     </div>

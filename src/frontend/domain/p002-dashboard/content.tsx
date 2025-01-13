@@ -18,6 +18,14 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
 
   const [expense, setExpense] = useState<Expense[]>(data.expense);
 
+  const totalExpense = expense
+    .filter((expe) => expe.expenseType == 'expenses')
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+
+  const totalIncome = expense
+    .filter((expe) => expe.expenseType == 'income')
+    .reduce((acc, curr) => acc + Number(curr.amount), 0);
+
   return (
     <div className="w-full h-screen flex flex-col p-5 space-y-5">
       <div className="menu-container w-full ">
@@ -30,7 +38,12 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
           <MdAddShoppingCart size={50} />
           <p className="font-bold">Add expense</p>
         </button>
-        <button className="bg-white rounded-md flex p-3 items-center justify-between">
+        <button
+          onClick={() => {
+            navigate('/user/categoryedit');
+          }}
+          className="bg-white rounded-md flex p-3 items-center justify-between"
+        >
           <MdOutlineModeEditOutline size={50} />
           <p className="font-bold">Edit Category</p>
         </button>
@@ -38,6 +51,27 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
           <BiSolidFileExport size={50} />
           <p className="font-bold">Export CSV</p>
         </button>
+      </div>
+      {/* total */}
+      <div className="w-full h-full total-container">
+        {/* total expense */}
+        <div className="bg-white h-auto p-4 rounded-md flex space-x-3 w-full">
+          <p>Total Expense</p>
+          <div className="w-[5px] h-full bg-orange-500 "></div>
+          <span className="flex space-x-2">
+            <h1>{totalExpense}</h1>
+            <p>฿</p>
+          </span>
+        </div>
+        {/* total icome */}
+        <div className="bg-white h-auto p-4 rounded-md flex space-x-3 w-full">
+          <p>Total Icome</p>
+          <div className="w-[5px] h-full bg-green-600 "></div>
+          <span className="flex space-x-2">
+            <h1>{totalIncome}</h1>
+            <p>฿</p>
+          </span>
+        </div>
       </div>
       <ExpenseUsage expense={expense} setExpese={setExpense} category={data.category} />
     </div>
