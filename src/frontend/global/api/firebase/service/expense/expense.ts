@@ -14,6 +14,7 @@ import {
 } from 'firebase/firestore';
 
 import { GetFirestore } from '../../../../../../core/middleware/firebase/service/firestore';
+import { FirestoreAutoId } from '../..';
 
 export const CreateExpense = async (payload: {
   uid: string;
@@ -24,7 +25,10 @@ export const CreateExpense = async (payload: {
   try {
     const userRef = doc(collection(GetFirestore(), 'users'), uid);
     const expenseRef = collection(userRef, 'expenses');
-    await addDoc(expenseRef, expense);
+    const id = FirestoreAutoId();
+    const newExpenseDoc = doc(expenseRef, id);
+
+    await setDoc(newExpenseDoc, { ...expense, id: id });
 
     return {
       res: 'Success',
@@ -68,5 +72,32 @@ export const GetUserExpense = async (payload: {
     };
   } catch (e) {
     return { error: e };
+  }
+};
+
+export const UpdateID = async (payload: { uid: string }): Promise<any> => {
+  const { uid } = payload;
+
+  try {
+    const userRef = doc(collection(GetFirestore(), 'users'), uid);
+    const expenseRef = collection(userRef, 'expenses');
+    const expenseSnapshot = await getDocs(expenseRef);
+
+    const temp: ExpenseAPI[] = expenseSnapshot.docs.map((doc) => {
+      return { ...(doc.data() as Expense), id: doc.id };
+    });
+
+    await Promise.all(
+      temp.map(async (item) => {
+        const updateDoc = doc(expenseRef, item.id);
+        const res = await setDoc(updateDoc, item, { merge: false });
+      }),
+    );
+
+    return null;
+  } catch (e) {
+    return {
+      error: e,
+    };
   }
 };

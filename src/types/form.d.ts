@@ -1,7 +1,7 @@
 export {};
 
 declare global {
-  type Expense = {
+  interface Expense {
     subject: string;
     expenseType: 'income' | 'expenses';
     dateTime: string;
@@ -9,5 +9,9 @@ declare global {
     description: string;
     category: string;
     amount: number;
-  };
+  }
+
+  interface ExpenseAPI extends Expense {
+    id: string;
+  }
 }

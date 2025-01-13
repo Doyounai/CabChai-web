@@ -103,3 +103,36 @@ h2 {
 p {
   color: #1d1729;
 }
+
+.bingbing {
+  width: 30px;
+  height: 30px;
+
+  border-radius: 55px;
+
+  background-color: #ffc080;
+
+  position: absolute;
+  // top: -10px;
+  right: 10px;
+
+  animation-name: bing;
+  animation-timing-function: ease-in;
+  animation-duration: 1.3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bing {
+  0% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  95% {
+    opacity: 0;
+    transform: scale(2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}

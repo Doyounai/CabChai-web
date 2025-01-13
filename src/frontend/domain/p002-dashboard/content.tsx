@@ -42,10 +42,11 @@ const Content = (props: { domainName: string; data?: IContentData | null }) => {
           onClick={() => {
             navigate('/user/categoryedit');
           }}
-          className="bg-white rounded-md flex p-3 items-center justify-between"
+          className="bg-white rounded-md flex p-3 items-center justify-between relative"
         >
           <MdOutlineModeEditOutline size={50} />
           <p className="font-bold">Edit Category</p>
+          <div className="bingbing"></div>
         </button>
         <button className="bg-white rounded-md flex p-3 items-center justify-between">
           <BiSolidFileExport size={50} />
